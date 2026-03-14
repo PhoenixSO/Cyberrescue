@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-darkBg: #050a15;
+  --color-cardBg: #0f172a;
+  --color-neonGreen: #00FF41;
+  --color-neonGreenHover: #39FF14;
+  --color-accentBlue: #1d4ed8;
+  --font-sans: 'Inter', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-darkBg text-gray-100 font-sans antialiased m-0 p-0;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-neonGreen text-black font-semibold rounded-lg hover:bg-neonGreenHover transition-colors duration-300 shadow-[0_0_15px_rgba(0,255,65,0.4)] hover:shadow-[0_0_25px_rgba(57,255,20,0.6)];
+  }
+  .btn-outline {
+    @apply px-6 py-3 border border-neonGreen text-neonGreen font-semibold rounded-lg hover:bg-neonGreen hover:text-black transition-all duration-300;
+  }
+  .card {
+    @apply bg-cardBg border border-gray-800 rounded-xl p-6 shadow-lg hover:border-gray-600 transition-colors duration-300;
+  }
+}
+
+/* Custom Scrollbar for cyber feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050a15; 
+}
+::-webkit-scrollbar-thumb {
+  background: #1d4ed8; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00FF41; 
+}
