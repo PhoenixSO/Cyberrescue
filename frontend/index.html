@@ -4,6 +4,21 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Restore client route after 404.html redirects unknown paths to /?/route
+      (function () {
+        const { search, hash } = window.location;
+        if (!search.startsWith('?/')) {
+          return;
+        }
+
+        const routeWithQuery = search
+          .slice(2)
+          .replace(/~and~/g, '&');
+        const nextUrl = `/${routeWithQuery}${hash || ''}`;
+        window.history.replaceState(null, '', nextUrl);
+      })();
+    </script>
     <title>Cyberrescue | Cyber Safety, Scam Awareness, and Recovery Help</title>
     <meta name="description" content="Cyberrescue helps you learn cyber safety, identify online attacks, and recover after scams or account compromise." />
     <meta name="robots" content="index, follow" />

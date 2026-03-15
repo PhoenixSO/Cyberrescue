@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyberrescue</title>
+    <script>
+      // Redirect unknown paths to the app entry with encoded route for SPA recovery.
+      (function () {
+        const l = window.location;
+        const path = l.pathname.replace(/^\//, '');
+        const query = l.search ? l.search.slice(1).replace(/&/g, '~and~') : '';
+        const route = path + (query ? '&' + query : '');
+        const target = `${l.protocol}//${l.host}/?/${route}${l.hash || ''}`;
+        l.replace(target);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
