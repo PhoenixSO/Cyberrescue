@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: cyberrescue-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: ALLOWED_ORIGINS
+        value: https://cyberrescue.space

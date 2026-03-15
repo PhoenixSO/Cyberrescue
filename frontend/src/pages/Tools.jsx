@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { KeyRound, ShieldCheck, GlobeLock, SearchCode, AlertTriangle, CheckCircle2 } from 'lucide-react';
-import { getApiUrl } from '../config/api';
+import { apiRequest } from '../config/api';
 
 const buildFallbackBreachResult = (email) => {
   const normalized = email.trim().toLowerCase();
@@ -39,20 +39,15 @@ const Tools = () => {
     setBreachStatus('loading');
     
     try {
-      const response = await fetch(getApiUrl('/api/breach-check'), {
+      const data = await apiRequest('/api/breach-check', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: breachEmail })
+        body: JSON.stringify({ email: breachEmail }),
       });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
+
       setBreachResult(data);
       setBreachStatus('result');
     } catch (error) {
