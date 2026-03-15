@@ -2,6 +2,7 @@ import { Shield, AlertTriangle, Lock, ArrowRight, Activity, Globe, Lightbulb } f
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { getApiUrl } from '../config/api';
 
 const Home = () => {
   const [dailyTip, setDailyTip] = useState('Loading daily security tip...');
@@ -9,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTip = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/tips/daily');
+        const response = await fetch(getApiUrl('/api/tips/daily'));
         const data = await response.json();
         if (data.tip) {
           setDailyTip(data.tip);

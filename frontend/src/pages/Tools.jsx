@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { KeyRound, ShieldCheck, GlobeLock, SearchCode, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 
 const Tools = () => {
   const [breachEmail, setBreachEmail] = useState('');
@@ -14,7 +15,7 @@ const Tools = () => {
     setBreachStatus('loading');
     
     try {
-      const response = await fetch('http://localhost:5000/api/breach-check', {
+      const response = await fetch(getApiUrl('/api/breach-check'), {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
