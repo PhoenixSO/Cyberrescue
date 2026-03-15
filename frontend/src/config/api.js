@@ -6,6 +6,11 @@ const normalizeBaseUrl = (value) => {
 const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL);
 const DEFAULT_TIMEOUT_MS = 10000;
 
+const isLocalHost = () => {
+  if (typeof window === 'undefined') return false;
+  return ['localhost', '127.0.0.1'].includes(window.location.hostname);
+};
+
 export const getApiUrl = (path) => {
   if (!path.startsWith('/')) {
     throw new Error('API path must start with "/".');
@@ -15,6 +20,11 @@ export const getApiUrl = (path) => {
 };
 
 export const apiRequest = async (path, options = {}) => {
+  // On static production hosts (like GitHub Pages), fail fast when no backend is configured.
+  if (!API_BASE_URL && !isLocalHost()) {
+    throw new Error('No API base URL configured for production.');
+  }
+
   const {
     method = 'GET',
     headers = {},
