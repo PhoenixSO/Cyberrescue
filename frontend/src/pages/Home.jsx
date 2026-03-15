@@ -31,7 +31,7 @@ const Home = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/10 via-darkBg to-darkBg z-0"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-blue-900/10 via-darkBg to-darkBg z-0"></div>
         
         {/* Animated Background Overlay */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMSIgZmlsbD0iIzFkNGVkOCIvPjwvc3ZnPg==')] opacity-10 z-0"></div>
@@ -54,7 +54,7 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               className="text-5xl md:text-7xl font-extrabold text-white tracking-tight"
             >
-              Stay Safe in the <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-neonGreen to-blue-500">Digital World</span>
+              Stay Safe in the <br/> <span className="text-transparent bg-clip-text bg-linear-to-r from-neonGreen to-blue-500">Digital World</span>
             </motion.h1>
             
             <motion.p 
@@ -91,7 +91,7 @@ const Home = () => {
               transition={{ delay: 0.7, duration: 0.6 }}
               className="max-w-3xl mx-auto mt-12 bg-gray-900/60 backdrop-blur-sm border border-gray-800 rounded-xl p-4 flex items-start sm:items-center space-x-4 text-left shadow-lg"
             >
-              <div className="bg-yellow-500/20 p-2 rounded-lg flex-shrink-0 mt-1 sm:mt-0">
+              <div className="bg-yellow-500/20 p-2 rounded-lg shrink-0 mt-1 sm:mt-0">
                 <Lightbulb className="h-6 w-6 text-yellow-400" />
               </div>
               <div>
@@ -152,11 +152,11 @@ const Home = () => {
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start">
-                    <Shield className="h-6 w-6 text-neonGreen mr-3 mt-1 flex-shrink-0" />
+                    <Shield className="h-6 w-6 text-neonGreen mr-3 mt-1 shrink-0" />
                     <span><strong>Proactive Defense:</strong> Learn to identify phishing emails, suspicious links, and social engineering attempts before falling victim.</span>
                   </li>
                   <li className="flex items-start">
-                    <Lock className="h-6 w-6 text-neonGreen mr-3 mt-1 flex-shrink-0" />
+                    <Lock className="h-6 w-6 text-neonGreen mr-3 mt-1 shrink-0" />
                     <span><strong>Data Protection:</strong> Understand how to secure your accounts with strong passwords and two-factor authentication.</span>
                   </li>
                 </ul>

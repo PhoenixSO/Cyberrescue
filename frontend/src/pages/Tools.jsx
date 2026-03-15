@@ -124,7 +124,7 @@ const Tools = () => {
               <h2 className="text-2xl font-bold text-white">{category.title}</h2>
             </div>
             
-            <p className="text-gray-400 mb-6 min-h-[4rem]">
+            <p className="text-gray-400 mb-6 min-h-16">
               {category.description}
             </p>
             
@@ -146,7 +146,7 @@ const Tools = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mt-16 bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-900/50 rounded-2xl p-8 max-w-3xl mx-auto"
+        className="mt-16 bg-linear-to-r from-blue-900/20 to-purple-900/20 border border-blue-900/50 rounded-2xl p-8 max-w-3xl mx-auto"
       >
         <div className="text-center mb-6">
           <h3 className="text-2xl font-bold text-white mb-2">Data Breach Simulator</h3>
@@ -161,7 +161,7 @@ const Tools = () => {
               required
               value={breachEmail}
               onChange={(e) => setBreachEmail(e.target.value)}
-              className="flex-grow bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neonGreen"
+              className="grow bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neonGreen"
             />
             <button 
               type="submit" 
