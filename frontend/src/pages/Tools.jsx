@@ -3,6 +3,30 @@ import { motion } from 'framer-motion';
 import { KeyRound, ShieldCheck, GlobeLock, SearchCode, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { getApiUrl } from '../config/api';
 
+const buildFallbackBreachResult = (email) => {
+  const normalized = email.trim().toLowerCase();
+  const hashSeed = normalized.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const breached = hashSeed % 2 === 0;
+
+  if (breached) {
+    return {
+      breached: true,
+      breachesCount: (hashSeed % 4) + 1,
+      message: 'Simulation complete: this email appears in known breach datasets.',
+      sources: ['Adobe (2013)', 'LinkedIn (2012)', 'Canva (2019)'].slice(0, (hashSeed % 3) + 1),
+      isFallback: true,
+    };
+  }
+
+  return {
+    breached: false,
+    breachesCount: 0,
+    message: 'Simulation complete: no known breach match found for this email.',
+    sources: [],
+    isFallback: true,
+  };
+};
+
 const Tools = () => {
   const [breachEmail, setBreachEmail] = useState('');
   const [breachStatus, setBreachStatus] = useState('idle'); // idle, loading, result
@@ -33,7 +57,11 @@ const Tools = () => {
       setBreachStatus('result');
     } catch (error) {
       console.error('Breach check error:', error);
-      setBreachStatus('idle'); // Reset on error for simplicity in demo
+
+      // Fallback keeps the simulator usable when the backend is unavailable.
+      const fallbackResult = buildFallbackBreachResult(breachEmail);
+      setBreachResult(fallbackResult);
+      setBreachStatus('result');
     }
   };
 
@@ -170,6 +198,9 @@ const Tools = () => {
                   <button onClick={() => setBreachStatus('idle')} className="btn-outline w-full border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
                     Check Another Email
                   </button>
+                    {breachResult?.isFallback ? (
+                      <p className="text-xs text-gray-500 mt-3">Backend unavailable: showing local simulator result.</p>
+                    ) : null}
                 </div>
              ) : (
                 <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
@@ -179,6 +210,9 @@ const Tools = () => {
                   <button onClick={() => setBreachStatus('idle')} className="btn-outline w-full">
                     Check Another Email
                   </button>
+                    {breachResult?.isFallback ? (
+                      <p className="text-xs text-gray-500 mt-3">Backend unavailable: showing local simulator result.</p>
+                    ) : null}
                 </div>
              )}
           </div>
