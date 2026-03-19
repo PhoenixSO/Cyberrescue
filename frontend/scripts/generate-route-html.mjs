@@ -62,7 +62,7 @@ function withRouteMetadata(indexHtml, route) {
   }
 
   const routePath = `/${route}`;
-  const pageUrl = `${siteUrl}${routePath}`;
+  const pageUrl = `${siteUrl}${routePath}/`;
   const title = escapeHtmlAttribute(metadata.title);
   const description = escapeHtmlAttribute(metadata.description);
 

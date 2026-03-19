@@ -6,32 +6,32 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://cyberrescue.space/attacks</loc>
+    <loc>https://cyberrescue.space/attacks/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cyberrescue.space/hacked</loc>
+    <loc>https://cyberrescue.space/hacked/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cyberrescue.space/tools</loc>
+    <loc>https://cyberrescue.space/tools/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cyberrescue.space/reporting</loc>
+    <loc>https://cyberrescue.space/reporting/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cyberrescue.space/learning</loc>
+    <loc>https://cyberrescue.space/learning/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cyberrescue.space/privacy</loc>
+    <loc>https://cyberrescue.space/privacy/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
