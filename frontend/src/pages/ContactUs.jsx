@@ -97,7 +97,8 @@ const ContactUs = () => {
       <section className="card">
         <h2 className="text-2xl font-bold text-white mb-3">Direct Email</h2>
         <p className="text-slate-300 mb-2">For urgent corrections and reporting guide updates:</p>
-        <a href="mailto:support@cyberrescue.org" className="text-cyan-300 hover:text-cyan-200">support@cyberrescue.org</a>
+        <p className="text-cyan-300">support@cyberrescue.org</p>
+        <p className="text-xs text-slate-400 mt-2">We do not request access to any external apps or services from this page.</p>
       </section>
     </div>
   );

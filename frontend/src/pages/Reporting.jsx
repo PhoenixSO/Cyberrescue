@@ -35,21 +35,13 @@ const Reporting = () => {
       </section>
 
       <section className="card mb-8">
-        <h2 className="text-2xl font-bold text-white mb-3">Important Official Links</h2>
+        <h2 className="text-2xl font-bold text-white mb-3">Important Official Resources</h2>
         <ul className="list-disc pl-6 text-slate-300 space-y-2">
-          <li>
-            India National Cyber Crime Reporting Portal:{' '}
-            <a href="https://cybercrime.gov.in" target="_blank" rel="noreferrer" className="text-cyan-300 hover:text-cyan-200">cybercrime.gov.in</a>
-          </li>
-          <li>
-            Google account safety support:{' '}
-            <a href="https://support.google.com/accounts" target="_blank" rel="noreferrer" className="text-cyan-300 hover:text-cyan-200">support.google.com/accounts</a>
-          </li>
-          <li>
-            Meta account help center:{' '}
-            <a href="https://www.facebook.com/hacked" target="_blank" rel="noreferrer" className="text-cyan-300 hover:text-cyan-200">facebook.com/hacked</a>
-          </li>
+          <li>India National Cyber Crime Reporting Portal: <span className="text-cyan-300">https://cybercrime.gov.in</span></li>
+          <li>Google account safety support: <span className="text-cyan-300">https://support.google.com/accounts</span></li>
+          <li>Meta account help center: <span className="text-cyan-300">https://www.facebook.com/hacked</span></li>
         </ul>
+        <p className="text-xs text-slate-400 mt-3">These are shown as text only to avoid opening external apps/services automatically.</p>
       </section>
 
       <section className="card">
