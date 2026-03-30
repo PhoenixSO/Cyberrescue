@@ -1,20 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1335655420557693" crossorigin="anonymous"></script>
-    <title>Cyberrescue</title>
+    <meta charset="utf-8" />
+    <title>CyberRescue</title>
     <script>
-      // Redirect unknown paths to the app entry with encoded route for SPA recovery.
-      (function () {
-        const l = window.location;
-        const path = l.pathname.replace(/^\//, '');
-        const query = l.search ? l.search.slice(1).replace(/&/g, '~and~') : '';
-        const route = path + (query ? '&' + query : '');
-        const target = `${l.protocol}//${l.host}/?/${route}${l.hash || ''}`;
-        l.replace(target);
-      })();
+      const path = window.location.pathname.replace('/Cyberrescue', '');
+      const target = `/Cyberrescue/?redirect=${encodeURIComponent(path + window.location.search + window.location.hash)}`;
+      window.location.replace(target);
     </script>
   </head>
   <body></body>

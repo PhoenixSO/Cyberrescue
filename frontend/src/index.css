@@ -3,41 +3,63 @@
 @theme {
   --color-darkBg: #050a15;
   --color-cardBg: #0f172a;
-  --color-neonGreen: #00FF41;
-  --color-neonGreenHover: #39FF14;
-  --color-accentBlue: #1d4ed8;
-  --font-sans: 'Inter', sans-serif;
+  --color-neonGreen: #00ff88;
+  --color-neonGreenHover: #52ffad;
+  --color-accentBlue: #38bdf8;
+  --font-sans: 'Manrope', sans-serif;
 }
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
   body {
-    @apply bg-darkBg text-gray-100 font-sans antialiased m-0 p-0;
+    @apply bg-darkBg text-slate-100 font-sans antialiased m-0 p-0;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 bg-neonGreen text-black font-semibold rounded-lg hover:bg-neonGreenHover transition-colors duration-300 shadow-[0_0_15px_rgba(0,255,65,0.4)] hover:shadow-[0_0_25px_rgba(57,255,20,0.6)];
+    @apply px-5 py-3 bg-neonGreen text-slate-900 font-semibold rounded-lg hover:bg-neonGreenHover transition-colors duration-300;
+    box-shadow: 0 0 0 rgba(0, 255, 136, 0);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 18px rgba(0, 255, 136, 0.35);
   }
   .btn-outline {
-    @apply px-6 py-3 border border-neonGreen text-neonGreen font-semibold rounded-lg hover:bg-neonGreen hover:text-black transition-all duration-300;
+    @apply px-5 py-3 border border-cyan-300 text-cyan-300 font-semibold rounded-lg hover:bg-cyan-300 hover:text-slate-900 transition-all duration-300;
   }
   .card {
-    @apply bg-cardBg border border-gray-800 rounded-xl p-6 shadow-lg hover:border-gray-600 transition-colors duration-300;
+    @apply bg-cardBg border border-slate-700 rounded-xl p-6 shadow-sm hover:border-cyan-400/50 transition-colors duration-300;
+  }
+  .trust-badge {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs uppercase tracking-wide border;
+  }
+  .cta-chip {
+    @apply inline-flex items-center rounded-md px-2 py-1 text-xs border border-slate-700 bg-slate-900/60 text-slate-300;
   }
 }
 
-/* Custom Scrollbar for cyber feel */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #050a15; 
+  background: #071321;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1d4ed8; 
+  background: #1d4ed8;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00FF41; 
+  background: #66f1c8;
 }

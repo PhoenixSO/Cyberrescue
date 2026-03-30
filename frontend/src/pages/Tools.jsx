@@ -1,218 +1,140 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { KeyRound, ShieldCheck, GlobeLock, SearchCode, AlertTriangle, CheckCircle2 } from 'lucide-react';
-import { apiRequest } from '../config/api';
+import { Link } from 'react-router-dom';
+import Seo from '../components/Seo';
+import { API_BASE_URL } from '../config';
 
-const buildFallbackBreachResult = (email) => {
-  const normalized = email.trim().toLowerCase();
-  const hashSeed = normalized.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const breached = hashSeed % 2 === 0;
-
-  if (breached) {
-    return {
-      breached: true,
-      breachesCount: (hashSeed % 4) + 1,
-      message: 'Simulation complete: this email appears in known breach datasets.',
-      sources: ['Adobe (2013)', 'LinkedIn (2012)', 'Canva (2019)'].slice(0, (hashSeed % 3) + 1),
-      isFallback: true,
-    };
-  }
-
-  return {
-    breached: false,
-    breachesCount: 0,
-    message: 'Simulation complete: no known breach match found for this email.',
-    sources: [],
-    isFallback: true,
-  };
-};
+const toolCategories = [
+  {
+    title: 'Password Managers',
+    description:
+      'Use a password manager to create and store unique credentials. This prevents one breach from exposing multiple accounts.',
+    examples: ['Bitwarden', '1Password', 'Proton Pass', 'Dashlane'],
+  },
+  {
+    title: 'Antivirus and Endpoint Protection',
+    description:
+      'Endpoint tools help detect malware, ransomware behavior, and suspicious downloads. Keep signatures and engines updated.',
+    examples: ['Microsoft Defender', 'Bitdefender', 'Malwarebytes', 'ESET'],
+  },
+  {
+    title: 'Secure Browsers and Extensions',
+    description:
+      'Choose browsers with strong security controls and keep extensions minimal. Remove extensions you do not actively use.',
+    examples: ['Firefox', 'Brave', 'uBlock Origin', 'Privacy Badger'],
+  },
+  {
+    title: 'Breach Monitoring Tools',
+    description:
+      'Breach tools notify you when email addresses appear in known leaks so you can rotate passwords early.',
+    examples: ['Have I Been Pwned', 'Firefox Monitor', 'Google Password Checkup'],
+  },
+];
 
 const Tools = () => {
-  const [breachEmail, setBreachEmail] = useState('');
-  const [breachStatus, setBreachStatus] = useState('idle'); // idle, loading, result
-  const [breachResult, setBreachResult] = useState(null);
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('idle');
+  const [result, setResult] = useState(null);
 
-  const handleBreachCheck = async (e) => {
-    e.preventDefault();
-    if (!breachEmail) return;
-    
-    setBreachStatus('loading');
-    
+  const handleCheck = async (event) => {
+    event.preventDefault();
+    if (!email) return;
+
+    setStatus('loading');
+
     try {
-      const data = await apiRequest('/api/breach-check', {
+      const response = await fetch(`${API_BASE_URL}/api/breach-check`, {
         method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: breachEmail }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
       });
 
-      setBreachResult(data);
-      setBreachStatus('result');
-    } catch (error) {
-      console.error('Breach check error:', error);
+      if (!response.ok) {
+        throw new Error('Unable to check breach status');
+      }
 
-      // Fallback keeps the simulator usable when the backend is unavailable.
-      const fallbackResult = buildFallbackBreachResult(breachEmail);
-      setBreachResult(fallbackResult);
-      setBreachStatus('result');
+      const data = await response.json();
+      setResult(data);
+      setStatus('done');
+    } catch (error) {
+      setStatus('error');
     }
   };
 
-  const toolCategories = [
-    {
-      title: 'Password Managers',
-      icon: <KeyRound className="h-10 w-10 text-blue-400" />,
-      description: 'Generate, store, and auto-fill complex passwords for all your accounts so you only have to remember one master password.',
-      examples: ['Bitwarden', '1Password', 'Dashlane', 'Proton Pass']
-    },
-    {
-      title: 'Antivirus & Anti-Malware',
-      icon: <ShieldCheck className="h-10 w-10 text-green-400" />,
-      description: 'Software designed to detect, prevent, and remove malicious software from your devices before it can cause damage.',
-      examples: ['Malwarebytes', 'Bitdefender', 'Kaspersky', 'Windows Defender']
-    },
-    {
-      title: 'VPN (Virtual Private Network)',
-      icon: <GlobeLock className="h-10 w-10 text-purple-400" />,
-      description: 'Encrypts your internet connection and masks your IP address, protecting your data from eavesdroppers, especially on public Wi-Fi.',
-      examples: ['Mullvad VPN', 'ProtonVPN', 'NordVPN', 'ExpressVPN']
-    },
-    {
-      title: 'Data Breach Checkers',
-      icon: <SearchCode className="h-10 w-10 text-yellow-400" />,
-      description: 'Monitor whether your email address, phone number, or passwords have been exposed in known corporate data breaches.',
-      examples: ['Have I Been Pwned', 'Firefox Monitor', 'Google Password Checkup']
-    }
-  ];
-
   return (
-    <div className="min-h-screen py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <motion.h1 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-extrabold text-white mb-4"
-        >
-          Essential <span className="text-blue-500">Security Tools</span>
-        </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-xl text-gray-400 max-w-3xl mx-auto"
-        >
-          Arm yourself with the right software. These categories represent the fundamental toolkit everyone should use to stay safe online.
-        </motion.p>
-      </div>
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+      <Seo
+        title="Tools & Resources | CyberRescue"
+        description="Browse recommended cyber safety tool categories and use the CyberRescue breach check simulator."
+        path="/tools"
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {toolCategories.map((category, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="card hover:-translate-y-2 transition-transform duration-300"
-          >
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="p-3 bg-gray-900 rounded-xl border border-gray-800 shadow-inner">
-                {category.icon}
-              </div>
-              <h2 className="text-2xl font-bold text-white">{category.title}</h2>
+      <header className="mb-10">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">Tools & Resources</h1>
+        <p className="text-lg text-slate-300 leading-8 max-w-4xl">
+          Tools do not replace awareness, but they make safer behavior easier. This page explains what each tool category solves and how to choose practical options.
+        </p>
+      </header>
+
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        {toolCategories.map((item) => (
+          <article key={item.title} className="card">
+            <h2 className="text-2xl font-bold text-white mb-2">{item.title}</h2>
+            <p className="text-slate-300 mb-4">{item.description}</p>
+            <div className="flex flex-wrap gap-2">
+              {item.examples.map((example) => (
+                <span key={example} className="px-3 py-1 text-sm rounded-full bg-slate-800 text-slate-200 border border-slate-700">{example}</span>
+              ))}
             </div>
-            
-            <p className="text-gray-400 mb-6 min-h-16">
-              {category.description}
-            </p>
-            
-            <div>
-              <h3 className="text-sm font-semibold text-neonGreen uppercase tracking-wider mb-3">Popular Options</h3>
-              <div className="flex flex-wrap gap-2">
-                {category.examples.map((example, i) => (
-                  <span key={i} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-800 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-500 cursor-default transition-colors">
-                    {example}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+          </article>
         ))}
-      </div>
+      </section>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 bg-linear-to-r from-blue-900/20 to-purple-900/20 border border-blue-900/50 rounded-2xl p-8 max-w-3xl mx-auto"
-      >
-        <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold text-white mb-2">Data Breach Simulator</h3>
-          <p className="text-gray-400">Enter an email to simulate checking known databases for exposed credentials.</p>
-        </div>
+      <section className="card mb-10">
+        <h2 className="text-2xl font-bold text-white mb-2">Breach Check Simulator</h2>
+        <p className="text-slate-300 mb-5">
+          This demo tool sends your email to the backend simulator and returns a mock breach status to show how an alert workflow can look.
+        </p>
 
-        {breachStatus === 'idle' || breachStatus === 'loading' ? (
-          <form onSubmit={handleBreachCheck} className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-            <input 
-              type="email" 
-              placeholder="Enter email address..." 
-              required
-              value={breachEmail}
-              onChange={(e) => setBreachEmail(e.target.value)}
-              className="grow bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neonGreen"
-            />
-            <button 
-              type="submit" 
-              disabled={breachStatus === 'loading'}
-              className={`btn-primary whitespace-nowrap flex items-center justify-center ${breachStatus === 'loading' ? 'opacity-70' : ''}`}
-            >
-              {breachStatus === 'loading' ? (
-                 <div className="h-5 w-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <><SearchCode className="mr-2 h-5 w-5" /> Check Now</>
-              )}
-            </button>
-          </form>
-        ) : (
-          <div className="max-w-xl mx-auto text-center">
-             {breachResult?.breached ? (
-                <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-6">
-                  <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-                  <h4 className="text-xl font-bold text-white mb-2">{breachResult.message}</h4>
-                  <p className="text-red-400 mb-4">Found in {breachResult.breachesCount} known breaches.</p>
-                  
-                  <div className="text-left bg-gray-900 rounded-lg p-4 mb-6">
-                    <span className="text-sm text-gray-400 uppercase tracking-wider block mb-2">Simulated Sources:</span>
-                    <ul className="list-disc list-inside text-gray-300">
-                      {breachResult.sources.map((src, i) => <li key={i}>{src}</li>)}
-                    </ul>
-                  </div>
-                  
-                  <button onClick={() => setBreachStatus('idle')} className="btn-outline w-full border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-                    Check Another Email
-                  </button>
-                    {breachResult?.isFallback ? (
-                      <p className="text-xs text-gray-500 mt-3">Backend unavailable: showing local simulator result.</p>
-                    ) : null}
-                </div>
-             ) : (
-                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
-                  <CheckCircle2 className="h-12 w-12 text-neonGreen mx-auto mb-4" />
-                  <h4 className="text-xl font-bold text-white mb-2">{breachResult?.message}</h4>
-                  <p className="text-gray-400 mb-6">No known breaches found in our simulated database.</p>
-                  <button onClick={() => setBreachStatus('idle')} className="btn-outline w-full">
-                    Check Another Email
-                  </button>
-                    {breachResult?.isFallback ? (
-                      <p className="text-xs text-gray-500 mt-3">Backend unavailable: showing local simulator result.</p>
-                    ) : null}
-                </div>
-             )}
+        <form onSubmit={handleCheck} className="flex flex-col sm:flex-row gap-3 mb-5">
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+            placeholder="Enter an email address"
+            className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white"
+          />
+          <button className="btn-primary" disabled={status === 'loading'} type="submit">
+            {status === 'loading' ? 'Checking...' : 'Check Email'}
+          </button>
+        </form>
+
+        {status === 'done' && result ? (
+          <div className="bg-slate-900 border border-slate-700 rounded-lg p-4 text-slate-200">
+            <p className="mb-2"><strong>Status:</strong> {result.breached ? 'Breached' : 'No known breach found (simulated)'}</p>
+            <p className="mb-2"><strong>Message:</strong> {result.message}</p>
+            {result.sources?.length ? (
+              <ul className="list-disc pl-6">
+                {result.sources.map((source) => (
+                  <li key={source}>{source}</li>
+                ))}
+              </ul>
+            ) : null}
           </div>
-        )}
-      </motion.div>
+        ) : null}
+
+        {status === 'error' ? <p className="text-red-400">The simulator is not reachable right now.</p> : null}
+      </section>
+
+      <section className="card">
+        <h2 className="text-2xl font-bold text-white mb-3">FAQ</h2>
+        <h3 className="text-lg font-semibold text-white mb-1">Which tool should I adopt first?</h3>
+        <p className="text-slate-300 mb-4">Start with a password manager and 2FA setup for your email and financial accounts.</p>
+        <div className="flex flex-wrap gap-3">
+          <Link to="/articles" className="btn-outline">Read Tool Guides</Link>
+          <Link to="/hacked" className="btn-outline">Recovery Playbook</Link>
+        </div>
+      </section>
     </div>
   );
 };
